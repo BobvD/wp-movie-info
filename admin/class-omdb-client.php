@@ -53,8 +53,19 @@ class omdb_client {
             $items[] = $entry;
 
         }
-
         return  $items;
     }
+
+    public function search_movie_by_name_and_year($name, $year){
+        $results = $this->omdb->search($name, 'movie', $year);
+        $items = array();
+        $search = $results->data->Search;
+        foreach ($search as $entry) {
+            $items[] = $entry;
+
+        }
+        return  $items;
+    }
+
 
 }

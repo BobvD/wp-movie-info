@@ -252,7 +252,17 @@ class Movie_Info_Admin {
 	public function ajax_movie_names() {
 		require_once( dirname( __FILE__ ) . '/class-omdb-client.php' );
 		$omdb_client = new omdb_client(get_option( $this->option_name . '_key' ));
-		echo json_encode($omdb_client->search_movie_by_name($_POST['movie'])); //encode into JSON format and output
+
+		$title = $_POST['movie'];
+		$year = $_POST['year'];
+
+		if($year){
+			echo json_encode($omdb_client->search_movie_by_name_and_year($title, $year));
+		}
+		else {
+			echo json_encode($omdb_client->search_movie_by_name($title));
+		}
+		 //encode into JSON format and output
 		die(); //stop "0" from being output
 	}
 

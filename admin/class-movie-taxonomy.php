@@ -74,18 +74,27 @@ class movie_taxonomy {
        ?>
 
         <p>
-            <label class="movie-info-search-label" for="post_movie"><?php _e( "Search for a movie by title:", 'movie-info' ); ?></label>
+            <label class="movie-info-search-label" for="post_movie"><?php _e( "Search for a movie:", 'movie-info' ); ?></label>
             <br />
-            <input class="movie-info-search-field" type="text" name="post_movie" id="post_movie" value="" size="16" />
+            <input class="movie-info-search-field" type="text" placeholder="Title or IMDB-ID" name="post_movie" id="post_movie" value="" size="16" />
+            <input class="movie-info-search-field" style="width: 130px;" placeholder="Year (optional)" type="number" name="post_movie_year" id="post_movie_year" value="" size="16" />
             <input type="button" class="button" id="movie-info-search-button" value="Search">
-            <table class="movie-info-table">
-                <tr>
-                    <th>Title</th>
-                    <th>Year</th>
-                </tr>
-            </table>
-
         </p>
+        <table class="movie-info-table">
+            <tr>
+                <th><?php _e( "Title", 'movie-info' ); ?></th>
+                <th><?php _e( "Year", 'movie-info' ); ?></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        </table>
+        <p class="howto"><?php _e( "Can't find your movie? Try searching by complete title or IMDB-ID.", 'movie-info' ); ?></p>
+
+
         <ul>
         <?php
             $movies = wp_get_object_terms($post->ID, 'movies');
