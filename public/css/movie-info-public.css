@@ -2,3 +2,10 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+ .movie-info{
+     padding: 10px;
+     border: 1px solid #ccc;
+     width: 100%;
+     margin: 10px 0px;
+ }

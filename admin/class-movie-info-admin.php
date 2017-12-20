@@ -41,6 +41,15 @@ class Movie_Info_Admin {
 	private $version;
 
 	/**
+	 * The options name to be used in this plugin
+	 *
+	 * @since  	1.0.0
+	 * @access 	private
+	 * @var  	string 		$option_name 	Option name of this plugin
+	 */
+	private $option_name = 'movie_info';
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -51,7 +60,7 @@ class Movie_Info_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		$this->create_movie_taxonomy();
 	}
 
 	/**
@@ -126,4 +135,104 @@ class Movie_Info_Admin {
 		include_once 'partials/movie-info-admin-display.php';
 	}
 
+
+
+	/**
+	 * Register all related settings of this plugin
+	 *
+	 * @since  1.0.0
+	 */
+	public function register_setting() {
+		// Add a General section
+		add_settings_section(
+			$this->option_name . '_general',
+			__( 'General', 'movie-info' ),
+			array( $this, $this->option_name . '_general_cb' ),
+			$this->plugin_name
+		);
+		add_settings_field(
+			$this->option_name . '_key',
+			__( 'OMDB Api Key', 'movie-info' ),
+			array( $this, $this->option_name . '_key_cb' ),
+			$this->plugin_name,
+			$this->option_name . '_general',
+			array( 'label_for' => $this->option_name . '_key' )
+		);
+		add_settings_field(
+			$this->option_name . '_position',
+			__( 'Widget position', 'movie-info' ),
+			array( $this, $this->option_name . '_position_cb' ),
+			$this->plugin_name,
+			$this->option_name . '_general',
+			array( 'label_for' => $this->option_name . '_position' )
+		);
+		register_setting( $this->plugin_name, $this->option_name . '_position', array( $this, $this->option_name . '_sanitize_position' ) );
+		register_setting( $this->plugin_name, $this->option_name . '_key' );
+	}
+
+	/**
+	 * Render the text for the general section
+	 *
+	 * @since  1.0.0
+	 */
+	public function movie_info_general_cb() {
+		echo '<p>' . __( 'Please change the settings accordingly and provide a valid API key.', 'movie-info' ) . '</p>';
+	}
+
+	/**
+	* Render the radio input field for position option
+	*
+	* @since  1.0.0
+	*/
+   	public function movie_info_position_cb() {
+			$position = get_option( $this->option_name . '_position' );
+	   	?>
+		  	<fieldset>
+			   	<label>
+				   <input type="radio" name="<?php echo $this->option_name . '_position' ?>" id="<?php echo $this->option_name . '_position' ?>" value="before" <?php checked( $position, 'before' ); ?>>
+				   	<?php _e( 'Before the content', 'movie-info' ); ?>
+			   	</label>
+			   	<br>
+			   	<label>
+					<input type="radio" name="<?php echo $this->option_name . '_position' ?>" id="<?php echo $this->option_name . '_position' ?>" value="after" <?php checked( $position, 'after' ); ?>>
+					<?php _e( 'After the content', 'movie-info' ); ?>
+			   	</label>
+				<br>
+				<label>
+					<input type="radio" name="<?php echo $this->option_name . '_position' ?>" id="<?php echo $this->option_name . '_position' ?>" value="shortcode" <?php checked( $position, 'shortcode' ); ?>>
+				    <?php _e( 'By shortcode only', 'movie-info' ); ?>
+			   	</label>
+		   	</fieldset>
+	   <?php
+	}
+
+		/**
+	* Render the text input field for position option
+	*
+	* @since  1.0.0
+	*/
+	public function movie_info_key_cb() {
+		$key = get_option( $this->option_name . '_key' );
+		echo '<input type="text" name="' . $this->option_name . '_key' . '" value="' . $key . '" id="' . $this->option_name . '_key' . '"> ';
+	}
+
+	/**
+	 * Sanitize the text position value before being saved to database
+	 *
+	 * @param  string $position $_POST value
+	 * @since  1.0.0
+	 * @return string           Sanitized value
+	 */
+	public function outdated_notice_sanitize_position( $position ) {
+		if ( in_array( $position, array( 'before', 'after' ), true ) ) {
+	        return $position;
+	    }
+	}
+
+	public function create_movie_taxonomy(){
+		/** Loads the ,ovie taxonomy class file. */
+		require_once( dirname( __FILE__ ) . '/class-movie-taxonomy.php' );
+		$movie_tax = new movie_taxonomy();
+		$movie_tax->init();
+	}
 }

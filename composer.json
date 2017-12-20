@@ -1,0 +1,5 @@
+{
+    "require": {
+        "aharen/omdbapi": "^2.0"
+    }
+}

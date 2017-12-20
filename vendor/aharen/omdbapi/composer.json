@@ -1,0 +1,20 @@
+{
+    "name": "aharen/omdbapi",
+    "description": "PHP package for OMDbAPI.com by Brian Fritz",
+    "keywords": ["movies", "tv shows", "omdb api"],
+    "license": "MIT",
+    "authors": [{
+        "name": "Ahmed Khusaam",
+        "email": "hello@khusaam.com"
+    }],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5.0",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "aharen\\": "src/"
+        }
+    }
+}

@@ -100,4 +100,26 @@ class Movie_Info_Public {
 
 	}
 
+	/**
+	 * Echo the movie information on the single post.
+	 *
+	 * @since    1.0.0
+	 */
+	public function the_content( $post_content ) {
+
+				if ( is_main_query() && is_singular('post') ) {
+					// get position
+					$position  = get_option( 'movie_info_position', 'before' );
+					$movie_info = '<div class="movie-info">test info</div>';
+					if ( 'after' == $position ) {
+						$post_content .= $movie_info;
+					}
+					else if ( 'before' == $position ) {
+						$post_content = $movie_info . $post_content;
+					}
+				}
+
+				return $post_content;
+			}
+
 }
