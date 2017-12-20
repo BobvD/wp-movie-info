@@ -29,4 +29,42 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+	jQuery(document).ready(function($) {
+
+
+		$('#post_movie').autoComplete({
+			source: function(movie, response) {
+				$.ajax({
+					type: 'POST',
+					dataType: 'json',
+					url: '/wpdev/wp-admin/admin-ajax.php',
+					data: 'action=get_movie_names&movie='+movie,
+					success: function(data) {
+						response(data);
+					}
+				});
+			}
+		});
+
+		$("#movie-info-search-button").click(function () {
+			$(".movie-info-table td").parent().remove();
+			$.ajax({
+				type: 'POST',
+				dataType: 'json',
+				url: '/wpdev/wp-admin/admin-ajax.php',
+				data: 'action=get_movie_names&movie='+$('#post_movie').val(),
+				success:function(data) {
+					data.forEach(printMovie);
+				  }
+			});
+		});
+
+		function printMovie(data){
+			console.log(data);
+			$( ".movie-info-table" ).append( `<tr><td>${data['Title']}</td><td>${data['Year']}</td></tr>` );
+		}
+
+
+	});
+
 })( jQuery );

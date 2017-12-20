@@ -61,7 +61,19 @@ class Movie_Info_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 		$this->create_movie_taxonomy();
+		$this->load_dependencies();
 	}
+
+	/**
+	 * Load the required dependencies for the admin.
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function load_dependencies() {
+
+
+	}
+
 
 	/**
 	 * Register the stylesheets for the admin area.
@@ -81,7 +93,7 @@ class Movie_Info_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		wp_enqueue_style( 'jquery-auto-complete', plugin_dir_url( __FILE__ ) . 'css/jquery.auto-complete.css', array(), 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/movie-info-admin.css', array(), $this->version, 'all' );
 
 	}
@@ -105,6 +117,7 @@ class Movie_Info_Admin {
 		 * class.
 		 */
 
+		wp_enqueue_script( 'jquery-auto-complete', plugin_dir_url( __FILE__ ) . 'js/jquery.auto-complete.min.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/movie-info-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
@@ -230,9 +243,17 @@ class Movie_Info_Admin {
 	}
 
 	public function create_movie_taxonomy(){
-		/** Loads the ,ovie taxonomy class file. */
+		/** Loads the movie taxonomy class file. */
 		require_once( dirname( __FILE__ ) . '/class-movie-taxonomy.php' );
 		$movie_tax = new movie_taxonomy();
 		$movie_tax->init();
 	}
+
+	public function ajax_movie_names() {
+		require_once( dirname( __FILE__ ) . '/class-omdb-client.php' );
+		$omdb_client = new omdb_client(get_option( $this->option_name . '_key' ));
+		echo json_encode($omdb_client->search_movie_by_name($_POST['movie'])); //encode into JSON format and output
+		die(); //stop "0" from being output
+	}
+
 }

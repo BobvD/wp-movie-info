@@ -18,14 +18,43 @@ use aharen\OMDbAPI;
 class omdb_client {
 
     /**
+	 * The OMDB API key
+	 *
+	 * @since  	1.0.0
+	 * @access 	protected
+	 * @var  	string 		$key 	OMDB API key
+	 */
+    protected $key;
+
+    /**
+	 * aharen\OMDbAPI
+	 *
+	 * @since  	1.0.0
+	 * @access 	protected
+	 * @var  	OMDbAPI
+	 */
+    protected $omdb;
+
+    /**
      * Client for accessing OMDB data.
      *
      * @since    1.0.0
      */
-    public function init() {
+    public function __construct($key) {
+        $this->key = $key;
+        $this->omdb = new OMDbAPI($key);
+    }
 
-        $omdb = new OMDbAPI();
-        
+    public function search_movie_by_name($name){
+        $results = $this->omdb->search($name, 'movie');
+        $items = array();
+        $search = $results->data->Search;
+        foreach ($search as $entry) {
+            $items[] = $entry;
+
+        }
+
+        return  $items;
     }
 
 }

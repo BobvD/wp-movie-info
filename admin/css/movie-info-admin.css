@@ -2,3 +2,43 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+ .movie-info-search-field{
+    width: 250px;
+    float: left;
+    height: 28px;
+    margin: 0 4px 10px 0;
+ }
+
+ .movie-info-search-label{
+    line-height: 3em;
+ }
+
+ .movie-info-results,  .movie-info-tags{
+    border: 1px solid #ddd;
+    background-color: #fdfdfd;
+    width: 100%;
+    padding: .9em;
+    min-height: 40px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-bottom: 10px;
+ }
+
+ .movie-info-results {
+     display:  none;
+ }
+
+.movie-info-table{
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 500px;
+}
+.movie-info-table th, .movie-info-table td {
+    text-align: left;
+    padding: 10px;
+}
+
+.movie-info-table th {
+    background-color: #f9f9f9;
+}

@@ -13,6 +13,8 @@
  * @author     Bob van Donselaar
  */
 
+require_once('class-omdb-client.php');
+
 class movie_taxonomy {
 
     /**
@@ -21,12 +23,14 @@ class movie_taxonomy {
      *
      * @since    1.0.0
      */
+
     public function init() {
         add_action( 'init', array( $this, 'init_movie' ) );
         add_action('admin_menu', array( $this, 'add_movie_box' ) );
 
         /* Use the save_post action to save new movie data */
         add_action('save_post', array( $this, 'save_movie_data' ) );
+        $omdb_client = new omdb_client('3ccd5933');
     }
 
     /**
@@ -70,9 +74,17 @@ class movie_taxonomy {
        ?>
 
         <p>
-            <label for="post_movie"><?php _e( "Search for a Movie:", 'movie-info' ); ?></label>
+            <label class="movie-info-search-label" for="post_movie"><?php _e( "Search for a movie by title:", 'movie-info' ); ?></label>
             <br />
-            <input class="widefat" type="text" name="post_movie" id="post_movie" value="" size="30" />
+            <input class="movie-info-search-field" type="text" name="post_movie" id="post_movie" value="" size="16" />
+            <input type="button" class="button" id="movie-info-search-button" value="Search">
+            <table class="movie-info-table">
+                <tr>
+                    <th>Title</th>
+                    <th>Year</th>
+                </tr>
+            </table>
+
         </p>
         <ul>
         <?php
