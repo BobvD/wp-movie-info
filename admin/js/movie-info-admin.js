@@ -33,8 +33,8 @@
 
 		$("#movie-info-search-button").click(function () {
 			$(".movie-info-table td").parent().remove();
-			var movie = $('#post_movie').val();
-			var year = $('#post_movie_year').val();
+			var movie = $.trim($('#post_movie').val());
+			var year = $.trim($('#post_movie_year').val());
 			var request = 'action=get_movie_names&movie='+movie;
 			if(year){
 				request += ('&year=' + year);
@@ -52,10 +52,26 @@
 		});
 
 		function printMovie(data){
-			console.log(data);
-			$( ".movie-info-table" ).append( `<tr><td>${data['Title']}</td><td>${data['Year']}</td><td><a href="#">Add</a></td></tr>` );
+			$( ".movie-info-table" ).append( `<tr data-movie-title="${data['Title']}" data-movie-id="${data['imdbID']}" data-movie-year="${data['Year']}">
+												<td>
+												${data['Title']}
+												</td>
+												<td>
+												${data['Year']}</td>
+												<td><button id="post_movie_add"> Add</button></tr>` );
 		}
 
+		$(document).on('click', '#post_movie_add', function(e) {
+			e.preventDefault();
+			var par = $(e.target).parent().parent();
+			var title = par.data('movie-title');
+			var id = par.data('movie-id');
+			var year = par.data('movie-year');
+
+			$( ".movie-info-tags" ).append(`<input type="hidden" name="post_movie[]" id="post_movie" value="${title + ' (' + year})" />
+											<p>${title + ' (' + year})</p>`);
+
+		});
 
 	});
 

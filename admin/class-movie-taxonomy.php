@@ -76,7 +76,7 @@ class movie_taxonomy {
         <p>
             <label class="movie-info-search-label" for="post_movie"><?php _e( "Search for a movie:", 'movie-info' ); ?></label>
             <br />
-            <input class="movie-info-search-field" type="text" placeholder="Title or IMDB-ID" name="post_movie" id="post_movie" value="" size="16" />
+            <input class="movie-info-search-field" type="text" placeholder="Title or IMDB-ID"  id="post_movie" value="" size="16" />
             <input class="movie-info-search-field" style="width: 130px;" placeholder="Year (optional)" type="number" name="post_movie_year" id="post_movie_year" value="" size="16" />
             <input type="button" class="button" id="movie-info-search-button" value="Search">
         </p>
@@ -94,18 +94,19 @@ class movie_taxonomy {
         </table>
         <p class="howto"><?php _e( "Can't find your movie? Try searching by complete title or IMDB-ID.", 'movie-info' ); ?></p>
 
-
-        <ul>
-        <?php
-            $movies = wp_get_object_terms($post->ID, 'movies');
-            foreach ($movies as $movie) {
-                if (!is_wp_error($names) && !empty($names) && !strcmp($movie->slug, $names[0]->slug))
-                    echo "<li class='theme-option'>" . $movie->name . "</li>\n";
-                else
-                    echo "<li class='theme-option'>" . $movie->name . "</li>\n";
-             }
-        ?>
-        </ul>
+        <div class="movie-info-tags">
+            <ul>
+            <?php
+                $movies = wp_get_object_terms($post->ID, 'movies');
+                foreach ($movies as $movie) {
+                    if (!is_wp_error($names) && !empty($names) && !strcmp($movie->slug, $names[0]->slug))
+                        echo "<li class='theme-option'>" . $movie->name . "</li>\n";
+                    else
+                        echo "<li class='theme-option'>" . $movie->name . "</li>\n";
+                }
+            ?>
+            </ul>
+        </div>
         <?php
    }
 
@@ -129,8 +130,9 @@ class movie_taxonomy {
         $post = get_post($post_id);
         if (($post->post_type == 'post') || ($post->post_type == 'page')) {
                // OR $post->post_type != 'revision'
-               $theme = $_POST['post_movie'];
-           wp_set_object_terms( $post_id, $theme, 'movies' );
+               $movies = isset ( $_POST['post_movie'] )  ? $_POST['post_movie'] : array();
+
+           wp_set_object_terms( $post_id, $movies, 'movies', true );
             }
         return $theme;
 
