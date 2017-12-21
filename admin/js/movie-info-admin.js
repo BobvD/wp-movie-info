@@ -47,6 +47,7 @@
 				data: request,
 				success:function(data) {
 					data.forEach(printMovie);
+					$( ".movie-info-table" ).show();
 				  }
 			});
 		});
@@ -68,9 +69,16 @@
 			var id = par.data('movie-id');
 			var year = par.data('movie-year');
 
-			$( ".movie-info-tags" ).append(`<input type="hidden" name="post_movie[]" id="post_movie" value="${title + ' (' + year})" />
+			$( ".movie-info-tags" ).append(`<input type="hidden" name="post_movie[]" value="${title + ' (' + year})" />
 											<p>${title + ' (' + year})</p>`);
+		});
 
+		$(document).on('click', '.movie-info-delete', function(e) {
+			e.preventDefault();
+			var par = $(e.target).parent().parent();
+			var tag = par.data('movie-tag');
+			$( ".movie-info-tags" ).append(`<input type="hidden" name="post_movie_deleted[]" value="${tag}" />`);
+			$(par).remove()
 		});
 
 	});

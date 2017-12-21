@@ -80,32 +80,32 @@ class movie_taxonomy {
             <input class="movie-info-search-field" style="width: 130px;" placeholder="Year (optional)" type="number" name="post_movie_year" id="post_movie_year" value="" size="16" />
             <input type="button" class="button" id="movie-info-search-button" value="Search">
         </p>
+        <p class="howto"><?php _e( "Can't find your movie? Try searching by complete title or IMDB-ID.", 'movie-info' ); ?></p>
         <table class="movie-info-table">
             <tr>
                 <th><?php _e( "Title", 'movie-info' ); ?></th>
                 <th><?php _e( "Year", 'movie-info' ); ?></th>
                 <th></th>
             </tr>
-            <tr>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
-        </table>
-        <p class="howto"><?php _e( "Can't find your movie? Try searching by complete title or IMDB-ID.", 'movie-info' ); ?></p>
 
+        </table>
+        <hr />
         <div class="movie-info-tags">
             <ul>
             <?php
                 $movies = wp_get_object_terms($post->ID, 'movies');
+                $deletebutton = '<button type="button dashicons-before" class="movie-info-delete">
+                                    <span class="dashicons dashicons-dismiss" aria-hidden="true"></span>
+                                 </button>';
                 foreach ($movies as $movie) {
                     if (!is_wp_error($names) && !empty($names) && !strcmp($movie->slug, $names[0]->slug))
-                        echo "<li class='theme-option'>" . $movie->name . "</li>\n";
+                        echo "<li class='theme-option' data-movie-tag='" . $movie->name . "'>" . $deletebutton . $movie->name . "</li>\n";
                     else
-                        echo "<li class='theme-option'>" . $movie->name . "</li>\n";
+                        echo "<li class='theme-option' data-movie-tag='" . $movie->name . "'>". $deletebutton . $movie->name . "</li>\n";
                 }
             ?>
             </ul>
+
         </div>
         <?php
    }
@@ -130,9 +130,10 @@ class movie_taxonomy {
         $post = get_post($post_id);
         if (($post->post_type == 'post') || ($post->post_type == 'page')) {
                // OR $post->post_type != 'revision'
+               $deleted_movies = isset ( $_POST['post_movie_deleted'] )  ? $_POST['post_movie_deleted'] : array();
+               wp_remove_object_terms( $post_id, $deleted_movies , 'movies' );
                $movies = isset ( $_POST['post_movie'] )  ? $_POST['post_movie'] : array();
-
-           wp_set_object_terms( $post_id, $movies, 'movies', true );
+               wp_set_object_terms( $post_id, $movies, 'movies', true );
             }
         return $theme;
 

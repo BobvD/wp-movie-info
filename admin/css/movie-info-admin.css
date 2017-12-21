@@ -33,6 +33,7 @@
     border: 1px solid #ddd;
     width: 100%;
     max-width: 500px;
+    display:  none;
 }
 .movie-info-table th, .movie-info-table td {
     text-align: left;
@@ -41,4 +42,30 @@
 
 .movie-info-table th {
     background-color: #f9f9f9;
+}
+
+.movie-info-tags > ul > li {
+    font-size: 13px;
+    line-height: 1.8em;
+    cursor: default;
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 12px;
+}
+.movie-info-delete{
+    width: 24px;
+    height: 24px;
+    border: none;
+    padding: 0;
+    background: 0 0;
+    cursor: pointer;
+    text-indent: 0;
+    color: #0073aa;
+}
+.movie-info-delete:hover{
+    color: red;
+}
+.movie-info-delete > .dashicons{
+    font-size: 14px;
+
 }
