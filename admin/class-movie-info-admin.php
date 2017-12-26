@@ -247,6 +247,10 @@ class Movie_Info_Admin {
 		require_once( dirname( __FILE__ ) . '/class-movie-taxonomy.php' );
 		$movie_tax = new movie_taxonomy();
 		$movie_tax->init();
+		// create custom fields
+		require_once( dirname( __FILE__ ) . '/class-movie-taxonomy-meta.php');
+		$movie_tax_meta = new movie_taxonomy_meta();
+		$movie_tax_meta->init();
 	}
 
 	public function ajax_movie_names() {

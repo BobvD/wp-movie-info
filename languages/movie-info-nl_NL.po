@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Movie Info v1.0.0\n"
 "Report-Msgid-Bugs-To: Translator Name <translations@example.com>\n"
-"POT-Creation-Date: 2017-12-19 16:50+0100\n"
+"POT-Creation-Date: 2017-12-21 02:14+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Your Team <translations@example.com>\n"
@@ -17,41 +17,89 @@ msgstr ""
 "X-Textdomain-Support: yesX-Generator: Poedit 1.6.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;"
-"_nx_noop:4c,1,2;_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;"
-"__ngettext_noop:1,2;_c,_nc:4c,1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
+"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,"
+"_nc:4c,1,2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-movie-info-admin.php:120
+#: admin/class-movie-info-admin.php:133
 msgid "Movie Info Settings"
 msgstr "Movie Info Instellingen"
 
-#: admin/class-movie-info-admin.php:121
+#: admin/class-movie-info-admin.php:134
 msgid "Movie Info"
 msgstr "Movie Info"
 
-#: admin/class-movie-info-admin.php:148
+#: admin/class-movie-info-admin.php:162
 msgid "General"
 msgstr "Algemeen"
 
-#: admin/class-movie-info-admin.php:154
+#: admin/class-movie-info-admin.php:168
+msgid "OMDB Api Key"
+msgstr ""
+
+#: admin/class-movie-info-admin.php:176
 msgid "Widget position"
 msgstr "Widget Positie"
 
-#: admin/class-movie-info-admin.php:169
-msgid "Please change the settings accordingly."
-msgstr "Verander de instelling naar wens."
+#: admin/class-movie-info-admin.php:192
+msgid "Please change the settings accordingly and provide a valid API key."
+msgstr ""
 
-#: admin/class-movie-info-admin.php:183
+#: admin/class-movie-info-admin.php:206
 msgid "Before the content"
 msgstr "Voor de inhoud"
 
-#: admin/class-movie-info-admin.php:188
+#: admin/class-movie-info-admin.php:211
 msgid "After the content"
 msgstr "Na de inhoud"
 
-#: admin/class-movie-info-admin.php:193
+#: admin/class-movie-info-admin.php:216
 msgid "By shortcode only"
 msgstr "Doormiddel van een shortcode"
+
+#: admin/class-movie-taxonomy.php:65
+msgid "Movie"
+msgstr "Film"
+
+#: admin/class-movie-taxonomy.php:77
+msgid "Search for a movie:"
+msgstr "Zoeken naar een film:"
+
+#: admin/class-movie-taxonomy.php:79
+msgid "Title or IMDB-ID"
+msgstr "Titel of IMDB-ID"
+
+#: admin/class-movie-taxonomy.php:80
+msgid "Year (Optional)"
+msgstr "Jaar (Optioneel)"
+
+#: admin/class-movie-taxonomy.php:81
+msgid "Search"
+msgstr "Zoeken"
+
+#: admin/class-movie-taxonomy.php:83
+msgid "Can't find your movie? Try searching by complete title or IMDB-ID."
+msgstr ""
+"Kan je de film niet vinden? Probeer te zoeken met de volledige titel of het "
+"IMDB-ID."
+
+#: admin/class-movie-taxonomy.php:86
+msgid "Title"
+msgstr "Titel"
+
+#: admin/class-movie-taxonomy.php:87
+msgid "Year"
+msgstr "Jaar"
+
+#: admin/class-movie-taxonomy.php:109
+msgid "Choose from the most used movies."
+msgstr "Kies uit de meest gebruikte films."
+
+#~ msgid "Search for a movie by title:"
+#~ msgstr "Zoeken aan de hand van film titel:"
+
+#~ msgid "Please change the settings accordingly."
+#~ msgstr "Verander de instelling naar wens."

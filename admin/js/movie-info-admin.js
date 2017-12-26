@@ -69,14 +69,19 @@
 			var id = par.data('movie-id');
 			var year = par.data('movie-year');
 
-			$( ".movie-info-tags" ).append(`<input type="hidden" name="post_movie[]" value="${title + ' (' + year})" />
-											<p>${title + ' (' + year})</p>`);
+			$( ".movie-info-tags" ).append(`<input type="hidden" name="post_movie[]" value="${title + ' (' + year})" />`);
+			$( ".movie-info-tags ul" ).append(`<li data-movie-tag='"${title + ' (' + year})"'><button type="button dashicons-before" class="movie-info-delete">
+												<span class="dashicons dashicons-dismiss" aria-hidden="true"></span>
+		 										</button>${title + ' (' + year})</li>`);
 		});
 
 		$(document).on('click', '.movie-info-delete', function(e) {
 			e.preventDefault();
 			var par = $(e.target).parent().parent();
 			var tag = par.data('movie-tag');
+			if ( $(  "input[value='" + tag + "']" ).length ) {
+				$( "input[value='" + tag + "']").remove();
+			}
 			$( ".movie-info-tags" ).append(`<input type="hidden" name="post_movie_deleted[]" value="${tag}" />`);
 			$(par).remove()
 		});

@@ -14,6 +14,7 @@
  */
 
 require_once('class-omdb-client.php');
+require_once('class-omdb-client.php');
 
 class movie_taxonomy {
 
@@ -27,7 +28,6 @@ class movie_taxonomy {
     public function init() {
         add_action( 'init', array( $this, 'init_movie' ) );
         add_action('admin_menu', array( $this, 'add_movie_box' ) );
-
         /* Use the save_post action to save new movie data */
         add_action('save_post', array( $this, 'save_movie_data' ) );
         $omdb_client = new omdb_client('3ccd5933');
@@ -58,6 +58,7 @@ class movie_taxonomy {
        );
 
        register_taxonomy( 'movies', 'post', $args );
+
    }
 
    public function add_movie_box() {
@@ -76,9 +77,9 @@ class movie_taxonomy {
         <p>
             <label class="movie-info-search-label" for="post_movie"><?php _e( "Search for a movie:", 'movie-info' ); ?></label>
             <br />
-            <input class="movie-info-search-field" type="text" placeholder="Title or IMDB-ID"  id="post_movie" value="" size="16" />
-            <input class="movie-info-search-field" style="width: 130px;" placeholder="Year (optional)" type="number" name="post_movie_year" id="post_movie_year" value="" size="16" />
-            <input type="button" class="button" id="movie-info-search-button" value="Search">
+            <input class="movie-info-search-field" type="text" placeholder="<?php _e( "Title or IMDB-ID", 'movie-info' ); ?>"  id="post_movie" value="" size="16" />
+            <input class="movie-info-search-field" style="width: 130px;" placeholder="<?php _e( "Year (Optional)", 'movie-info' ); ?>" type="number" name="post_movie_year" id="post_movie_year" value="" size="16" />
+            <input type="button" class="button" id="movie-info-search-button" value="<?php _e( "Search", 'movie-info' ); ?>">
         </p>
         <p class="howto"><?php _e( "Can't find your movie? Try searching by complete title or IMDB-ID.", 'movie-info' ); ?></p>
         <table class="movie-info-table">
@@ -99,14 +100,14 @@ class movie_taxonomy {
                                  </button>';
                 foreach ($movies as $movie) {
                     if (!is_wp_error($names) && !empty($names) && !strcmp($movie->slug, $names[0]->slug))
-                        echo "<li class='theme-option' data-movie-tag='" . $movie->name . "'>" . $deletebutton . $movie->name . "</li>\n";
+                        echo "<li data-movie-tag='" . $movie->name . "'>" . $deletebutton . $movie->name . "</li>\n";
                     else
-                        echo "<li class='theme-option' data-movie-tag='" . $movie->name . "'>". $deletebutton . $movie->name . "</li>\n";
+                        echo "<li data-movie-tag='" . $movie->name . "'>". $deletebutton . $movie->name . "</li>\n";
                 }
             ?>
             </ul>
-
         </div>
+        <a href="#"><?php _e( "Choose from the most used movies.", 'movie-info' ); ?></a>
         <?php
    }
 
