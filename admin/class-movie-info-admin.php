@@ -270,4 +270,26 @@ class Movie_Info_Admin {
 		die(); //stop "0" from being output
 	}
 
+	public function save_post_movies( $post_ID, $post, $update ) {
+		require_once( dirname( __FILE__ ) . '/class-omdb-client.php' );
+		$omdb_client = new omdb_client(get_option( $this->option_name . '_key' ));
+
+		if($update){
+			$movies = get_the_terms( $post_id, 'movies' );
+			// get all movie data
+			foreach ( $movies as $movie ) {
+				$movie_data = $omdb_client->get_movie_data($movie->name);
+				update_term_meta( $movie->term_id, 'title', $movie_data->data->Title );
+				update_term_meta( $movie->term_id, 'year', $movie_data->data->Year );
+				update_term_meta( $movie->term_id, 'runtime', $movie_data->data->Runtime );
+				update_term_meta( $movie->term_id, 'genre', $movie_data->data->Genre );
+				update_term_meta( $movie->term_id, 'country', $movie_data->data->Country );
+				update_term_meta( $movie->term_id, 'director', $movie_data->data->Director );
+				update_term_meta( $movie->term_id, 'cast', $movie_data->data->Actors );
+				update_term_meta( $movie->term_id, 'description', $movie_data->data->Plot );
+			}
+		}
+
+	}
+
 }

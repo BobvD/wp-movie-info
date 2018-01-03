@@ -67,5 +67,14 @@ class omdb_client {
         return  $items;
     }
 
+    public function get_movie_data($slug){
+
+        $title = substr($slug, 0, -7);
+        $year = substr($slug, -6, 4);
+
+        $results = $this->omdb->fetch('t', $title, ['Year' => $year]);
+        return  $results;
+    }
+
 
 }
