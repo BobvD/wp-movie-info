@@ -287,6 +287,7 @@ class Movie_Info_Admin {
 				update_term_meta( $movie->term_id, 'director', $movie_data->data->Director );
 				update_term_meta( $movie->term_id, 'cast', $movie_data->data->Actors );
 				update_term_meta( $movie->term_id, 'description', $movie_data->data->Plot );
+				update_term_meta( $movie->term_id, 'poster', $movie_data->data->Poster );
 			}
 		}
 
