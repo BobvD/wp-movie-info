@@ -4,8 +4,29 @@
  */
 
  .movie-info{
+    border: 1px solid #ccc;
+    width: 100%;
+    margin: 10px 0px;
+    height: 100%;
+    display: inline-grid;
+    grid-template-columns: 200px auto auto;
+ }
+
+ .movie-info h3{
+    font-size: 1.8em !important;
+    margin: 0!important;
+ }
+
+ .movie-poster{
+ }
+
+ .movie-meta{
      padding: 10px;
-     border: 1px solid #ccc;
-     width: 100%;
-     margin: 10px 0px;
+ }
+
+ .movie-rating {
+     background: #ccc;
+     border-radius: 4px;
+     padding: 2px 6px;
+     margin-right: 10px;
  }
