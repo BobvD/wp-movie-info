@@ -75,6 +75,11 @@ class movie_taxonomy_meta {
             <label for="cast"><?php _e( 'Cast', 'movie-info' ); ?></label>
             <input type="text" id="cast" name="cast" />
         </div>
+        <!-- Rated -->
+        <div class="form-field term-group">
+            <label for="rated"><?php _e( 'Rated', 'movie-info' ); ?></label>
+            <input type="text" id="rated" name="rated" />
+        </div>
         <?php
     }
 
@@ -87,6 +92,7 @@ class movie_taxonomy_meta {
         $director = get_term_meta( $term->term_id, 'director', true );
         $cast = get_term_meta( $term->term_id, 'cast', true );
         $poster = get_term_meta( $term->term_id, 'poster', true );
+        $rated = get_term_meta( $term->term_id, 'rated', true );
         ?>
         <table class="form-table">
             <hr/>
@@ -164,6 +170,15 @@ class movie_taxonomy_meta {
                     <input type="text" id="cast" name="cast" value="<?php echo $cast; ?>" />
                 </td>
             </tr>
+            <!-- Rated -->
+            <tr class="form-field">
+                <th scope="row">
+                    <label for="rated"><?php _e( 'Rated', 'movie-info' ); ?></label>
+                </th>
+                <td>
+                    <input type="text" id="rated" name="rated" value="<?php echo $rated; ?>" />
+                </td>
+            </tr>
         </table>
         <?php
     }
@@ -192,6 +207,9 @@ class movie_taxonomy_meta {
         }
         if( isset( $_POST['poster'] ) ) {
             update_term_meta( $term_id, 'poster', esc_attr( $_POST['poster'] ) );
+        }
+        if( isset( $_POST['rated'] ) ) {
+            update_term_meta( $term_id, 'rated', esc_attr( $_POST['rated'] ) );
         }
     }
 

@@ -28,5 +28,8 @@
      background: #ccc;
      border-radius: 4px;
      padding: 2px 6px;
-     margin-right: 10px;
  }
+
+.movie-rating,  .movie-runtime {
+    margin-right: 20px;
+}

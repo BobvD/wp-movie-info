@@ -286,8 +286,11 @@ class Movie_Info_Admin {
 				update_term_meta( $movie->term_id, 'country', $movie_data->data->Country );
 				update_term_meta( $movie->term_id, 'director', $movie_data->data->Director );
 				update_term_meta( $movie->term_id, 'cast', $movie_data->data->Actors );
-				update_term_meta( $movie->term_id, 'description', $movie_data->data->Plot );
 				update_term_meta( $movie->term_id, 'poster', $movie_data->data->Poster );
+				update_term_meta( $movie->term_id, 'rated', $movie_data->data->Rated );
+				$update = wp_update_term( $movie->term_id, 'movies', array(
+					'description' => $movie_data->data->Plot
+				) );
 			}
 		}
 

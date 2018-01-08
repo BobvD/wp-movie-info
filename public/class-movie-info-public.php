@@ -110,14 +110,14 @@ class Movie_Info_Public {
         $director = get_term_meta( $movie->term_id, 'director', true );
         $cast = get_term_meta( $movie->term_id, 'cast', true );
 		$poster = get_term_meta( $movie->term_id, 'poster', true );
+		$rated = get_term_meta( $movie->term_id, 'rated', true );
 
 		$widget = '<div class="movie-info">'
 				  .	'<img class="movie-poster" src="' . $poster . '">'
 				  . '<div class="movie-meta"><h3>' . $title . ' (' . $year . ')' .'</h3>'
-				  . '<p><span class="movie-rating">PG 13</span>' .  $runtime . ' ' . $country . '</p>'
-				  . '<p class="movie-plot">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>'
+				  . '<p><span class="movie-rating">' . $rated . '</span><span class="movie-runtime">' .  $runtime . '</span> ' . $country . '</p>'
+				  . '<p class="movie-plot">' . $movie->description . '</p>'
 				  . '<p><b>Director:</b> ' . $director . '<br /><b>Stars:</b> ' . $cast . '</p>'
-
 				  . '</div>'
 				  . '</div>';
 		return $widget;
@@ -136,7 +136,7 @@ class Movie_Info_Public {
 				if ( is_main_query() && is_singular('post') ) {
 					// get position
 					$position  = get_option( 'movie_info_position', 'before' );
-					$movies = get_the_terms( $post_content, 'movies' );
+					$movies = get_the_terms( $post_content->post_ID, 'movies' );
 					$movie_info = $this->movie_widget($movies[0]);
 					if ( 'after' == $position ) {
 						$post_content .= $movie_info;
