@@ -117,7 +117,7 @@ class Movie_Info_Public {
 				  . '<div class="movie-meta"><h3>' . $title . ' (' . $year . ')' .'</h3>'
 				  . '<p><span class="movie-rating">' . $rated . '</span><span class="movie-runtime">' .  $runtime . '</span> ' . $country . '</p>'
 				  . '<p class="movie-plot">' . $movie->description . '</p>'
-				  . '<p><b>Director:</b> ' . $director . '<br /><b>Stars:</b> ' . $cast . '</p>'
+				  . '<p><b>Genre: </b>'. $genre . '<br /><b>Director:</b> ' . $director . '<br /><b>Stars:</b> ' . $cast . '</p>'
 				  . '</div>'
 				  . '</div>';
 		return $widget;
