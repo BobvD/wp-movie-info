@@ -29,6 +29,10 @@ class movie_taxonomy_meta {
         add_action( 'movies_edit_form_fields', array( $this, 'movies_edit_meta_fields' ), 10, 2 );
         add_action( 'created_movies', array( $this, 'movies_save_taxonomy_meta' ), 10, 2 );
         add_action( 'edited_movies', array( $this, 'movies_save_taxonomy_meta' ), 10, 2 );
+        add_action ( 'admin_enqueue_scripts', function () {
+            if (is_admin ())
+                wp_enqueue_media ();
+        } );
     }
 
     function movies_add_meta_fields( $taxonomy ) {
@@ -84,6 +88,7 @@ class movie_taxonomy_meta {
     }
 
     function movies_edit_meta_fields( $term, $taxonomy ) {
+
         $title = get_term_meta( $term->term_id, 'title', true );
         $year = get_term_meta( $term->term_id, 'year', true );
         $runtime = get_term_meta( $term->term_id, 'runtime', true );
@@ -103,10 +108,17 @@ class movie_taxonomy_meta {
                     <label for="poster"><?php _e( 'Poster', 'movie-info' ); ?></label>
                 </th>
                 <td>
-                    <img src="<?php echo $poster; ?>" />
+                    <img id="movie-info-poster" src="<?php echo $poster; ?>" />
                     <input type="text" id="poster" name="poster" value="<?php echo $poster; ?>" />
+                    <div class="form-field term-group">
+                        <p>
+                            <input type="hidden" value="" class="regular-text process_custom_images" id="process_custom_images" name="" max="" min="1" step="1">
+                            <button class="set_custom_images button"><?php _e( 'Set featured image', 'movie-info' ); ?></button>
+                        </p>
+                    </div>
                 </td>
             </tr>
+
             <!-- Movie Title -->
             <tr class="form-field">
                 <th scope="row">
@@ -210,6 +222,14 @@ class movie_taxonomy_meta {
         }
         if( isset( $_POST['rated'] ) ) {
             update_term_meta( $term_id, 'rated', esc_attr( $_POST['rated'] ) );
+        }
+
+        // Check that the nonce is valid, and the user can edit this post.
+        if ( isset( $_POST['my_image_upload_nonce'] ) ) {
+            $attachment_id = media_handle_upload( 'my_image_upload' );
+        } else {
+
+            // The security check failed, maybe show the user an error.
         }
     }
 

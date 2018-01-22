@@ -271,12 +271,13 @@ class Movie_Info_Admin {
 	}
 
 	public function save_post_movies( $post_ID, $post, $update ) {
+
 		require_once( dirname( __FILE__ ) . '/class-omdb-client.php' );
 		$omdb_client = new omdb_client(get_option( $this->option_name . '_key' ));
 
 		if($update){
 			$movies = get_the_terms( $post_id, 'movies' );
-			// get all movie data
+			// get all movie data.
 			foreach ( $movies as $movie ) {
 				$movie_data = $omdb_client->get_movie_data($movie->name);
 				update_term_meta( $movie->term_id, 'title', $movie_data->data->Title );
@@ -286,15 +287,26 @@ class Movie_Info_Admin {
 				update_term_meta( $movie->term_id, 'country', $movie_data->data->Country );
 				update_term_meta( $movie->term_id, 'director', $movie_data->data->Director );
 				update_term_meta( $movie->term_id, 'cast', $movie_data->data->Actors );
-				update_term_meta( $movie->term_id, 'poster', $movie_data->data->Poster );
-				media_sideload_image($movie_data->data->Poster, 0, null, 'src');
 				update_term_meta( $movie->term_id, 'rated', $movie_data->data->Rated );
+
+				// check if the poster image already exists, if not: save
+				if ( null == ( $thumb_id = $this->does_file_exists( basename($movie_data->data->Poster) ) ) ) {
+					update_term_meta( $movie->term_id, 'poster',
+					media_sideload_image($movie_data->data->Poster, 0, $movie->name, 'src') );
+				}
+
+				// Update the term's description.
 				$update = wp_update_term( $movie->term_id, 'movies', array(
 					'description' => $movie_data->data->Plot
 				) );
 			}
 		}
 
+	}
+
+	public function does_file_exists($filename) {
+		global $wpdb;
+		return intval( $wpdb->get_var( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_value LIKE '%/$filename'" ) );
 	}
 
 }

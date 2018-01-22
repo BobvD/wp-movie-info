@@ -88,4 +88,38 @@
 
 	});
 
+	jQuery(document).ready(function() {
+		var $ = jQuery;
+		var media_uploader = null;
+		if ($('.set_custom_images').length > 0) {
+			if ( typeof wp !== 'undefined' && wp.media && wp.media.editor) {
+				$(document).on('click', '.set_custom_images', function(e) {
+					e.preventDefault();
+					var button = $(this);
+					var id = button.prev();
+
+					media_uploader = wp.media({
+						frame:    "post",
+						state:    "insert",
+						multiple: false
+					});
+
+					media_uploader.on("insert", function(){
+						var json = media_uploader.state().get("selection").first().toJSON();
+
+						var image_url = json.url;
+						console.log(image_url);
+						$("#movie-info-poster").attr("src",image_url);
+						$("#poster").attr("value",image_url);
+						var image_caption = json.caption;
+						var image_title = json.title;
+					});
+
+					media_uploader.open(button);
+					return false;
+				});
+			}
+		}
+	});
+
 })( jQuery );

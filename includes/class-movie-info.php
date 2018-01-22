@@ -168,6 +168,8 @@ class Movie_Info {
 		$this->loader->add_action('wp_ajax_nopriv_get_movie_names', $plugin_admin, 'ajax_movie_names');
 		$this->loader->add_action('wp_ajax_get_movie_names', $plugin_admin, 'ajax_movie_names');
 		$this->loader->add_action('save_post', $plugin_admin, 'save_post_movies', 10, 3);
+		$this->loader->add_action('save_post', $plugin_admin, 'save_post_movies', 10, 3);
+
 	}
 
 	/**
@@ -184,6 +186,7 @@ class Movie_Info {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'the_content', $plugin_public, 'the_content' );
+
 
 	}
 
