@@ -41,8 +41,13 @@ class movie_taxonomy_meta {
         <h3>Movie Info</h3>
         <!-- Movie Poster -->
         <div class="form-field term-group">
+            <img id="movie-info-poster" src="" />
             <label for="poster"><?php _e( 'Poster', 'movie-info' ); ?></label>
-            <input type="text" id="poster" name="poster" />
+            <input type="hidden" id="poster" name="poster" />
+            <p>
+                <input type="hidden" value="" class="regular-text process_custom_images" id="process_custom_images" name="" max="" min="1" step="1">
+                <button class="set_custom_images button"><?php _e( 'Set featured image', 'movie-info' ); ?></button>
+            </p>
         </div>
         <!-- Movie Title -->
         <div class="form-field term-group">
@@ -109,7 +114,7 @@ class movie_taxonomy_meta {
                 </th>
                 <td>
                     <img id="movie-info-poster" src="<?php echo $poster; ?>" />
-                    <input type="text" id="poster" name="poster" value="<?php echo $poster; ?>" />
+                    <input type="hidden" id="poster" name="poster" value="<?php echo $poster; ?>" />
                     <div class="form-field term-group">
                         <p>
                             <input type="hidden" value="" class="regular-text process_custom_images" id="process_custom_images" name="" max="" min="1" step="1">

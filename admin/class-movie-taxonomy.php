@@ -79,7 +79,9 @@ class movie_taxonomy {
             <br />
             <input class="movie-info-search-field" type="text" placeholder="<?php _e( "Title or IMDB-ID", 'movie-info' ); ?>"  id="post_movie" value="" size="16" />
             <input class="movie-info-search-field" style="width: 130px;" placeholder="<?php _e( "Year (Optional)", 'movie-info' ); ?>" type="number" name="post_movie_year" id="post_movie_year" value="" size="16" />
-            <input type="button" class="button" id="movie-info-search-button" value="<?php _e( "Search", 'movie-info' ); ?>">
+
+            <a class="button" id="movie-info-search-button"><span class="dashicons dashicons-search"></span> <?php _e( "Search", 'movie-info' ); ?></a>
+
         </p>
         <p class="howto"><?php _e( "Can't find your movie? Try searching by complete title or IMDB-ID.", 'movie-info' ); ?></p>
         <table class="movie-info-table">

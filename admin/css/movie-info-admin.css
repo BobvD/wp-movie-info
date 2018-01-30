@@ -69,3 +69,16 @@
     font-size: 14px;
 
 }
+
+#movie-info-search-button {
+    padding: 0 13px 0px 5px;
+}
+
+#movie-info-search-button > .dashicons {
+    font-size: 16px;
+    line-height: 26px;
+    height: 28px;
+    margin: 0;
+    margin-right: 5px;
+
+}

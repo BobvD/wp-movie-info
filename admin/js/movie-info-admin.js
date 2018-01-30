@@ -31,8 +31,12 @@
 
 	jQuery(document).ready(function($) {
 
-		$("#movie-info-search-button").click(function () {
+		$("#movie-info-search-button").click(function (e) {
+			e.preventDefault();
+			$(this).addClass( "disabled" );
+			$(this).html('<span class="dashicons dashicons-search"></span>Searching...');
 			$(".movie-info-table td").parent().remove();
+			$( ".movie-info-table" ).before('<span class="searching">Searching...</span>');
 			var movie = $.trim($('#post_movie').val());
 			var year = $.trim($('#post_movie_year').val());
 			var request = 'action=get_movie_names&movie='+movie;
@@ -46,9 +50,19 @@
 				url: '/wpdev/wp-admin/admin-ajax.php',
 				data: request,
 				success:function(data) {
-					data.forEach(printMovie);
+					if(data && data == "")
+						$( ".movie-info-table" ).append('<tr><td>No Results.</td></tr>');
+					else
+						data.forEach(printMovie);
+					$(".searching").remove();
 					$( ".movie-info-table" ).show();
-				  }
+					$("#movie-info-search-button").removeClass( "disabled" );
+					$("#movie-info-search-button").html('<span class="dashicons dashicons-search"></span>Search');
+
+				  },
+				error: function (xhr, ajaxOptions, thrownError) {
+					$(".searching").remove();
+				}
 			});
 		});
 
@@ -59,7 +73,7 @@
 												</td>
 												<td>
 												${data['Year']}</td>
-												<td><button id="post_movie_add"> Add</button></tr>` );
+												<td><a href="#" id="post_movie_add"> Add</a></tr>` );
 		}
 
 		$(document).on('click', '#post_movie_add', function(e) {
