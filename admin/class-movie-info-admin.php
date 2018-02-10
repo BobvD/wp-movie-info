@@ -195,10 +195,19 @@ class Movie_Info_Admin {
 			$this->option_name . '_general',
 			array( 'label_for' => $this->option_name . '_save_image_locally' )
 		);
+		add_settings_field(
+			$this->option_name . '_update_moviedata_on_post_update',
+			__( 'Various', 'movie-info' ),
+			array( $this, $this->option_name . '_update_moviedata_on_post_update_cb' ),
+			$this->plugin_name,
+			$this->option_name . '_general',
+			array( 'label_for' => $this->option_name . '_update_moviedata_on_post_update' )
+		);
 		register_setting( $this->plugin_name, $this->option_name . '_position', array( $this, $this->option_name . '_sanitize_position' ) );
 		register_setting( $this->plugin_name, $this->option_name . '_key' );
 		register_setting( $this->plugin_name, $this->option_name . '_save_image_locally' );
 		register_setting( $this->plugin_name, $this->option_name . '_update_rating_frequency' );
+		register_setting( $this->plugin_name, $this->option_name . '_update_moviedata_on_post_update' );
 	}
 
 
@@ -290,6 +299,26 @@ class Movie_Info_Admin {
 	<?php
 	}
 
+	/**
+	* Render the select input field for update rating frequency
+	*
+	* @since  1.0.0
+	*/
+	public function movie_info_update_moviedata_on_post_update_cb() {
+		$do_not_update = get_option( $this->option_name . '_update_moviedata_on_post_update' );
+	   ?>
+		  <input id="checkBox"
+		  	type="checkbox"
+			value="1"
+			name="<?php echo $this->option_name . '_update_moviedata_on_post_update' ?>"
+			id="<?php echo $this->option_name . '_update_moviedata_on_post_update' ?>"
+			<?php checked( $do_not_update, true ); ?>>
+		  Don't update movie-data when post get's updated.
+		  </input>
+
+	<?php
+	}
+
 		/**
 	* Render the text input field for position option
 	*
@@ -346,8 +375,9 @@ class Movie_Info_Admin {
 		require_once( dirname( __FILE__ ) . '/class-omdb-client.php' );
 		$omdb_client = new omdb_client(get_option( $this->option_name . '_key' ));
 		$save_image = get_option( $this->option_name . '_save_image_locally' );
+		$do_not_update = get_option( $this->option_name . '_update_moviedata_on_post_update' );
 
-		if($update){
+		if($update == 0 || ($update == 1 && $do_not_update != 1)){
 			$movies = get_the_terms( $post_id, 'movies' );
 			// get all movie data.
 			foreach ( $movies as $movie ) {
