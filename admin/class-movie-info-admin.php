@@ -360,6 +360,8 @@ class Movie_Info_Admin {
 				update_term_meta( $movie->term_id, 'director', $movie_data->data->Director );
 				update_term_meta( $movie->term_id, 'cast', $movie_data->data->Actors );
 				update_term_meta( $movie->term_id, 'rated', $movie_data->data->Rated );
+				update_term_meta( $movie->term_id, 'imdb-rating', $movie_data->data->imdbRating );
+				update_term_meta( $movie->term_id, 'metascore', $movie_data->data->Metascore );
 
 				// check if the user want's to save images locally
 				if($save_image == 1){

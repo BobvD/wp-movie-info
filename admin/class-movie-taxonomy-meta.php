@@ -89,6 +89,16 @@ class movie_taxonomy_meta {
             <label for="rated"><?php _e( 'Rated', 'movie-info' ); ?></label>
             <input type="text" id="rated" name="rated" />
         </div>
+        <!-- IMDB Rating -->
+        <div class="form-field term-group">
+            <label for="imdb-rating"><?php _e( 'IMDB rating', 'movie-info' ); ?></label>
+            <input type="text" id="imdb-rating" name="imdb-rating" />
+        </div>
+        <!-- Metascore -->
+        <div class="form-field term-group">
+            <label for="metascore"><?php _e( 'Metascore', 'movie-info' ); ?></label>
+            <input type="text" id="metascore" name="metascore" />
+        </div>
         <?php
     }
 
@@ -103,6 +113,8 @@ class movie_taxonomy_meta {
         $cast = get_term_meta( $term->term_id, 'cast', true );
         $poster = get_term_meta( $term->term_id, 'poster', true );
         $rated = get_term_meta( $term->term_id, 'rated', true );
+        $imdb_rating = get_term_meta( $term->term_id, 'imdb-rating', true );
+        $metascore = get_term_meta( $term->term_id, 'metascore', true );
         ?>
         <table class="form-table">
             <hr/>
@@ -196,6 +208,24 @@ class movie_taxonomy_meta {
                     <input type="text" id="rated" name="rated" value="<?php echo $rated; ?>" />
                 </td>
             </tr>
+            <!-- IMDB Rating -->
+            <tr class="form-field">
+                <th scope="row">
+                    <label for="imdb-rating"><?php _e( 'IMDB rating', 'movie-info' ); ?></label>
+                </th>
+                <td>
+                    <input type="text" id="imdb-rating" name="imdb-rating" value="<?php echo $imdb_rating; ?>" />
+                </td>
+            </tr>
+            <!-- Metascore -->
+            <tr class="form-field">
+                <th scope="row">
+                    <label for="metascore"><?php _e( 'Metascore', 'movie-info' ); ?></label>
+                </th>
+                <td>
+                    <input type="text" id="metascore" name="metascore" value="<?php echo $metascore; ?>" />
+                </td>
+            </tr>
         </table>
         <?php
     }
@@ -227,6 +257,12 @@ class movie_taxonomy_meta {
         }
         if( isset( $_POST['rated'] ) ) {
             update_term_meta( $term_id, 'rated', esc_attr( $_POST['rated'] ) );
+        }
+        if( isset( $_POST['imdb-rating'] ) ) {
+            update_term_meta( $term_id, 'imdb-rating', esc_attr( $_POST['imdb-rating'] ) );
+        }
+        if( isset( $_POST['metascore'] ) ) {
+            update_term_meta( $term_id, 'metascore', esc_attr( $_POST['metascore'] ) );
         }
 
         // Check that the nonce is valid, and the user can edit this post.

@@ -111,6 +111,15 @@ class Movie_Info_Public {
         $cast = get_term_meta( $movie->term_id, 'cast', true );
 		$poster = get_term_meta( $movie->term_id, 'poster', true );
 		$rated = get_term_meta( $movie->term_id, 'rated', true );
+		$imdb_rating = get_term_meta( $movie->term_id, 'imdb-rating', true );
+		if(!$imdb_rating){
+			$imdb_rating = "N/A";
+		}
+		$metascore = get_term_meta( $movie->term_id, 'metascore', true );
+		if(!$metascore){
+			$metascore = "N/A";
+		}
+
 
 		$widget = '<div class="movie-info">'
 				  .	'<img class="movie-poster" src="' . $poster . '">'
@@ -118,6 +127,10 @@ class Movie_Info_Public {
 				  . '<p><span class="movie-rating">' . $rated . '</span><span class="movie-runtime">' .  $runtime . '</span> ' . $country . '</p>'
 				  . '<p class="movie-plot">' . $movie->description . '</p>'
 				  . '<p><b>Genre: </b>'. $genre . '<br /><b>Director:</b> ' . $director . '<br /><b>Stars:</b> ' . $cast . '</p>'
+				  . '<div class="movie-score">'
+				  . '<div class="imdb-rating"><h3>' . $imdb_rating . '</h3>IMDB</div>'
+				  . '<div class="metascore"><h3>' . $metascore . '</h3>METASCORE</div>'
+				  . '</div>'
 				  . '</div>'
 				  . '</div>';
 		return $widget;

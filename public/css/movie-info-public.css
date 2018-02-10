@@ -22,6 +22,7 @@
 
  .movie-meta{
      padding: 10px;
+     position: relative;
  }
 
  .movie-rating {
@@ -32,4 +33,24 @@
 
 .movie-rating,  .movie-runtime {
     margin-right: 20px;
+}
+
+.movie-score{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.imdb-rating, .metascore  {
+    border: 2px solid #ccc;
+    height: 60px;
+    width: 55px;
+    display: inline-block;
+    margin-right: 5px;
+    text-align: center;
+    font-size: 7px;
+}
+
+.imdb-rating h3, .metascore  h3{
+    font-size: 24px!important;
 }
