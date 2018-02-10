@@ -179,9 +179,29 @@ class Movie_Info_Admin {
 			$this->option_name . '_general',
 			array( 'label_for' => $this->option_name . '_position' )
 		);
+		add_settings_field(
+			$this->option_name . '_update_rating_frequency',
+			__( 'Update IMDB rating:', 'movie-info' ),
+			array( $this, $this->option_name . '_update_rating_frequency_cb' ),
+			$this->plugin_name,
+			$this->option_name . '_general',
+			array( 'label_for' => $this->option_name . '_update_rating_frequency' )
+		);
+		add_settings_field(
+			$this->option_name . '_save_image_locally',
+			__( 'Images', 'movie-info' ),
+			array( $this, $this->option_name . '_save_image_locally_cb' ),
+			$this->plugin_name,
+			$this->option_name . '_general',
+			array( 'label_for' => $this->option_name . '_save_image_locally' )
+		);
 		register_setting( $this->plugin_name, $this->option_name . '_position', array( $this, $this->option_name . '_sanitize_position' ) );
 		register_setting( $this->plugin_name, $this->option_name . '_key' );
+		register_setting( $this->plugin_name, $this->option_name . '_save_image_locally' );
+		register_setting( $this->plugin_name, $this->option_name . '_update_rating_frequency' );
 	}
+
+
 
 	/**
 	 * Render the text for the general section
@@ -217,6 +237,57 @@ class Movie_Info_Admin {
 			   	</label>
 		   	</fieldset>
 	   <?php
+	}
+
+	/**
+	* Render the select input field for update rating frequency
+	*
+	* @since  1.0.0
+	*/
+	public function movie_info_update_rating_frequency_cb() {
+		$rating_freq = get_option( $this->option_name . '_update_rating_frequency' );
+	   ?>
+		  <select
+		  	name="<?php echo $this->option_name . '_update_rating_frequency' ?>"
+			id="<?php echo $this->option_name . '_update_rating_frequency' ?>">
+			<option
+				<?php selected( $rating_freq, 'never' ); ?>
+				value="never">Never
+			</option>
+			<option
+				<?php selected( $rating_freq, 'daily' ); ?>
+				value="daily">Daily
+			</option>
+			<option
+				<?php selected( $rating_freq, 'weekly' ); ?>
+				value="weekly">Weekly
+			</option>
+			<option
+				<?php selected( $rating_freq, 'monthly' ); ?>
+				value="monthly">Monthly
+			</option>
+		  </select>
+	<?php
+	}
+
+	/**
+	* Render the select input field for update rating frequency
+	*
+	* @since  1.0.0
+	*/
+	public function movie_info_save_image_locally_cb() {
+		$rating_freq = get_option( $this->option_name . '_save_image_locally' );
+	   ?>
+		  <input id="checkBox"
+		  	type="checkbox"
+			value="1"
+			name="<?php echo $this->option_name . '_save_image_locally' ?>"
+			id="<?php echo $this->option_name . '_save_image_locally' ?>"
+			<?php checked( $rating_freq, true ); ?>>
+		  Save images (posters) locally
+		  </input>
+
+	<?php
 	}
 
 		/**
@@ -274,6 +345,7 @@ class Movie_Info_Admin {
 
 		require_once( dirname( __FILE__ ) . '/class-omdb-client.php' );
 		$omdb_client = new omdb_client(get_option( $this->option_name . '_key' ));
+		$save_image = get_option( $this->option_name . '_save_image_locally' );
 
 		if($update){
 			$movies = get_the_terms( $post_id, 'movies' );
@@ -289,11 +361,18 @@ class Movie_Info_Admin {
 				update_term_meta( $movie->term_id, 'cast', $movie_data->data->Actors );
 				update_term_meta( $movie->term_id, 'rated', $movie_data->data->Rated );
 
-				// check if the poster image already exists, if not: save
-				if ( null == ( $thumb_id = $this->does_file_exists( basename($movie_data->data->Poster) ) ) ) {
-					update_term_meta( $movie->term_id, 'poster',
-					media_sideload_image($movie_data->data->Poster, 0, $movie->name, 'src') );
+				// check if the user want's to save images locally
+				if($save_image == 1){
+					// check if the poster image already exists, if not: save
+					if ( null == ( $thumb_id = $this->does_file_exists( basename($movie_data->data->Poster) ) ) ) {
+						update_term_meta( $movie->term_id, 'poster',
+						media_sideload_image($movie_data->data->Poster, 0, $movie->name, 'src') );
+					}
+				} else {
+					update_term_meta( $movie->term_id, 'poster', $movie_data->data->Poster);
 				}
+
+
 
 				// Update the term's description.
 				$update = wp_update_term( $movie->term_id, 'movies', array(
