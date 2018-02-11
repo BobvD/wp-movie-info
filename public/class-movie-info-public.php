@@ -150,7 +150,10 @@ class Movie_Info_Public {
 					// get position
 					$position  = get_option( 'movie_info_position', 'before' );
 					$movies = get_the_terms( $post_content->post_ID, 'movies' );
-					$movie_info = $this->movie_widget($movies[0]);
+					$movie_info = '';
+					foreach($movies as $movie){
+						$movie_info .= $this->movie_widget($movie);
+					}
 					if ( 'after' == $position ) {
 						$post_content .= $movie_info;
 					}

@@ -73,21 +73,41 @@
 												</td>
 												<td>
 												${data['Year']}</td>
-												<td><a href="#" id="post_movie_add"> Add</a></tr>` );
+												<td><a href="#" class="post_movie_add"> Add</a></tr>` );
 		}
 
-		$(document).on('click', '#post_movie_add', function(e) {
+		$(document).on('click', '.post_movie_add', function(e) {
 			e.preventDefault();
-			var par = $(e.target).parent().parent();
-			var title = par.data('movie-title');
-			var id = par.data('movie-id');
-			var year = par.data('movie-year');
-
-			$( ".movie-info-tags" ).append(`<input type="hidden" name="post_movie[]" value="${title + ' (' + year})" />`);
-			$( ".movie-info-tags ul" ).append(`<li data-movie-tag='"${title + ' (' + year})"'><button type="button dashicons-before" class="movie-info-delete">
-												<span class="dashicons dashicons-dismiss" aria-hidden="true"></span>
-		 										</button>${title + ' (' + year})</li>`);
+			var data = $(e.target).parent().parent();
+			appendMovieTag(data);
 		});
+
+
+		$(document).on('click', '.post_pop_movie_add', function(e) {
+			e.preventDefault();
+			var data = $(e.target);
+			appendMovieTag(data);
+		});
+
+		function appendMovieTag(data){
+			// get data
+			var title = data.data('movie-title');
+			var year = data.data('movie-year');
+			var ex = `li[data-movie-tag='${title + ' (' + year})']`;
+			// check if tag already exists
+			if ( $( ex ).length > 0) {
+				// tag already exists, focus on search box and return.
+				$('#post_movie').focus();
+				return;
+			}
+			// tag does not yet exists, add the tag.
+			var movie_hidden = `<input type="hidden" id="${id}" name="post_movie[]" value="${title + ' (' + year})" />`;
+			var movie_li = `<li id="${id}" data-movie-tag='${title + ' (' + year})'><button type="button dashicons-before" class="movie-info-delete">
+								<span class="dashicons dashicons-dismiss" aria-hidden="true"></span>
+			 					</button>${title + ' (' + year})</li>`;
+			$( ".movie-info-tags" ).append(movie_hidden);
+			$( ".movie-info-tags ul" ).append(movie_li);
+		}
 
 		$(document).on('click', '.movie-info-delete', function(e) {
 			e.preventDefault();
@@ -98,6 +118,11 @@
 			}
 			$( ".movie-info-tags" ).append(`<input type="hidden" name="post_movie_deleted[]" value="${tag}" />`);
 			$(par).remove()
+		});
+
+		$("#show-tagcloud-movies").click(function (e) {
+			e.preventDefault();
+			$("#tagcloud-movies").toggle();
 		});
 
 	});

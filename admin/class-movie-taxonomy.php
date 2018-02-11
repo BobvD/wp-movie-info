@@ -109,8 +109,38 @@ class movie_taxonomy {
             ?>
             </ul>
         </div>
-        <a href="#"><?php _e( "Choose from the most used movies.", 'movie-info' ); ?></a>
+        <button class="button-link" id="show-tagcloud-movies"><?php _e( "Choose from the most used movies.", 'movie-info' ); ?></button>
+
+        <div id="tagcloud-movies" class="the-tagcloud">
+            <ul class="wp-tag-cloud" role="list">
+                <?php
+                    $most_used_movies = get_terms( 'movies', array(
+                        'orderby'    => 'count',
+                        'hide_empty' => true,
+                        'number' => 10
+                    ) );
+                    foreach($most_used_movies as $movie){
+                        ?>
+                            <li>
+                                <a href="#"
+                                    data-movie-id=""
+                                    data-movie-title="<?php echo get_term_meta( $movie->term_id, 'title', true ) ?>"
+                                    data-movie-year="<?php echo get_term_meta( $movie->term_id, 'year', true ) ?>"
+                                    role="button"
+                                    class="tag-cloud-link post_pop_movie_add"
+                                    style="font-size: 8pt;"
+                                    aria-label="<?php echo $movie->name ?>">
+                                    <?php echo $movie->name ?>
+                                </a>
+                            </li>
+                        <?php
+                    }
+                ?>
+            </ul>
+        </div>
+
         <?php
+
    }
 
    public function save_movie_data($post_id) {
