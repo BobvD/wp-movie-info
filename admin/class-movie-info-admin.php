@@ -95,7 +95,7 @@ class Movie_Info_Admin {
 		 */
 		wp_enqueue_style( 'jquery-auto-complete', plugin_dir_url( __FILE__ ) . 'css/jquery.auto-complete.css', array(), 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/movie-info-admin.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style( 'wp-color-picker' );
 	}
 
 	/**
@@ -116,9 +116,7 @@ class Movie_Info_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_script( 'jquery-auto-complete', plugin_dir_url( __FILE__ ) . 'js/jquery.auto-complete.min.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/movie-info-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/movie-info-admin.js', array( 'jquery', 'wp-color-picker' ), $this->version, false );
 
 	}
 
@@ -203,11 +201,47 @@ class Movie_Info_Admin {
 			$this->option_name . '_general',
 			array( 'label_for' => $this->option_name . '_update_moviedata_on_post_update' )
 		);
+		// Add a Styling section
+		add_settings_section(
+			$this->option_name . '_styling',
+			__( 'Styling', 'movie-info' ),
+			array( $this, $this->option_name . '_styling_cb' ),
+			$this->plugin_name
+		);
+		add_settings_field( // Option 1
+			$this->option_name . '_font_size', // Option ID
+			__( 'Font Size', 'movie-info' ), // Label
+			array( $this, $this->option_name . '_font_size_cb' ), // !important - This is where the args go!
+			$this->plugin_name, // Page it will be displayed (General Settings)
+			$this->option_name . '_styling', // Name of our section
+			array( 'label_for' => $this->option_name . '_font_size' )
+		);
+		add_settings_field( // Option 1
+			$this->option_name . '_primary_color', // Option ID
+			__( 'Primary Color', 'movie-info' ), // Label
+			array( $this, $this->option_name . '_primary_color_cb' ), // !important - This is where the args go!
+			$this->plugin_name, // Page it will be displayed (General Settings)
+			$this->option_name . '_styling', // Name of our section
+			array( 'label_for' => $this->option_name . '_primary_color' )
+		);
+		add_settings_field( // Option 1
+			$this->option_name . '_secondary_color', // Option ID
+			__( 'Secondary Color', 'movie-info' ), // Label
+			array( $this, $this->option_name . '_secondary_color_cb' ), // !important - This is where the args go!
+			$this->plugin_name, // Page it will be displayed (General Settings)
+			$this->option_name . '_styling', // Name of our section
+			array( 'label_for' => $this->option_name . '_secondary_color' )
+		);
+
+
 		register_setting( $this->plugin_name, $this->option_name . '_position', array( $this, $this->option_name . '_sanitize_position' ) );
 		register_setting( $this->plugin_name, $this->option_name . '_key' );
 		register_setting( $this->plugin_name, $this->option_name . '_save_image_locally' );
 		register_setting( $this->plugin_name, $this->option_name . '_update_rating_frequency' );
 		register_setting( $this->plugin_name, $this->option_name . '_update_moviedata_on_post_update' );
+		register_setting( $this->plugin_name, $this->option_name . '_font_size' );
+		register_setting( $this->plugin_name, $this->option_name . '_primary_color' );
+		register_setting( $this->plugin_name, $this->option_name . '_secondary_color' );
 	}
 
 
@@ -219,6 +253,15 @@ class Movie_Info_Admin {
 	 */
 	public function movie_info_general_cb() {
 		echo '<p>' . __( 'Please change the settings accordingly and provide a valid API key.', 'movie-info' ) . '</p>';
+	}
+
+	/**
+	 * Render the text for the general section
+	 *
+	 * @since  1.0.0
+	 */
+	public function movie_info_styling_cb() {
+		echo '<p>' . __( 'Change the way your widget will be displayed.', 'movie-info' ) . '</p>';
 	}
 
 	/**
@@ -328,6 +371,27 @@ class Movie_Info_Admin {
 		$key = get_option( $this->option_name . '_key' );
 		echo '<input type="text" name="' . $this->option_name . '_key' . '" value="' . $key . '" id="' . $this->option_name . '_key' . '"> ';
 	}
+
+	public function movie_info_font_size_cb() {
+		$font_size = get_option( $this->option_name . '_font_size' );
+		echo '<input type="text" name="' . $this->option_name . '_font_size' . '" value="'
+		. $font_size . '" id="' . $this->option_name . '_font_size' . '"> ';
+	}
+
+	public function movie_info_primary_color_cb() {
+		$primary_color = get_option( $this->option_name . '_primary_color' );
+		echo '<input name="' . $this->option_name . '_primary_color'
+			. '" value="'. $primary_color . '"'
+			. '" class="color-field" type="text" >';
+	}
+
+	public function movie_info_secondary_color_cb() {
+		$secondary_color = get_option( $this->option_name . '_secondary_color' );
+		echo '<input name="' . $this->option_name . '_secondary_color'
+				. '" value="'. $secondary_color . '"'
+				. '" class="color-field" type="text" >';
+	}
+
 
 	/**
 	 * Sanitize the text position value before being saved to database

@@ -123,7 +123,7 @@ class Movie_Info_Public {
 
 		$widget = '<div class="movie-info">'
 				  .	'<img class="movie-poster" src="' . $poster . '">'
-				  . '<div class="movie-meta"><h3>' . $title . ' (' . $year . ')' .'</h3>'
+				  . '<div class="movie-meta"><h2 class="movie-title">' . $title . ' (' . $year . ')' .'</h2>'
 				  . '<p><span class="movie-rating">' . $rated . '</span><span class="movie-runtime">' .  $runtime . '</span> ' . $country . '</p>'
 				  . '<p class="movie-plot">' . $movie->description . '</p>'
 				  . '<p><b>Genre: </b>'. $genre . '<br /><b>Director:</b> ' . $director . '<br /><b>Stars:</b> ' . $cast . '</p>'
@@ -151,14 +151,16 @@ class Movie_Info_Public {
 					$position  = get_option( 'movie_info_position', 'before' );
 					$movies = get_the_terms( $post_content->post_ID, 'movies' );
 					$movie_info = '';
-					foreach($movies as $movie){
-						$movie_info .= $this->movie_widget($movie);
-					}
-					if ( 'after' == $position ) {
-						$post_content .= $movie_info;
-					}
-					else if ( 'before' == $position ) {
-						$post_content = $movie_info . $post_content;
+					if($movies) {
+						foreach($movies as $movie){
+							$movie_info .= $this->movie_widget($movie);
+						}
+						if ( 'after' == $position ) {
+							$post_content .= $movie_info;
+						}
+						else if ( 'before' == $position ) {
+							$post_content = $movie_info . $post_content;
+						}
 					}
 				}
 

@@ -9,7 +9,8 @@
     margin: 10px 0px;
     height: 100%;
     display: inline-grid;
-    grid-template-columns: 200px auto auto;
+    grid-template-columns: 200px auto;
+    font-size: 0.9em;
  }
 
  .movie-info h3{
@@ -17,7 +18,13 @@
     margin: 0!important;
  }
 
- .movie-poster{
+ .movie-title{
+    margin-top: 0px!important;
+    margin-bottom: 10px!important;
+    margin-right: 130px!important;
+    font-size: 1.8em !important;
+    line-height: 1.2em;
+
  }
 
  .movie-meta{
@@ -41,16 +48,28 @@
     top: 10px;
 }
 
+.movie-plot{
+    width: 90%;
+}
+
+.movie-title{
+    overflow-wrap: break-word;
+}
+
 .imdb-rating, .metascore  {
     border: 2px solid #ccc;
     height: 60px;
-    width: 55px;
+    min-width: 55px;
+    width: auto;
+    padding: 3px;
     display: inline-block;
     margin-right: 5px;
     text-align: center;
-    font-size: 7px;
+    vertical-align: middle;
+    font-size: 0.5em;
 }
 
 .imdb-rating h3, .metascore  h3{
-    font-size: 24px!important;
+    font-size: 3.5em!important;
 }
+
