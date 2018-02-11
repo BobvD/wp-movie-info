@@ -101,8 +101,8 @@
 				return;
 			}
 			// tag does not yet exists, add the tag.
-			var movie_hidden = `<input type="hidden" id="${id}" name="post_movie[]" value="${title + ' (' + year})" />`;
-			var movie_li = `<li id="${id}" data-movie-tag='${title + ' (' + year})'><button type="button dashicons-before" class="movie-info-delete">
+			var movie_hidden = `<input type="hidden" name="post_movie[]" value="${title + ' (' + year})" />`;
+			var movie_li = `<li data-movie-tag='${title + ' (' + year})'><button type="button dashicons-before" class="movie-info-delete">
 								<span class="dashicons dashicons-dismiss" aria-hidden="true"></span>
 			 					</button>${title + ' (' + year})</li>`;
 			$( ".movie-info-tags" ).append(movie_hidden);
