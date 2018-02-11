@@ -381,6 +381,10 @@ class Movie_Info_Admin {
 			$movies = get_the_terms( $post_id, 'movies' );
 			// get all movie data.
 			foreach ( $movies as $movie ) {
+				$do_not_update_single = get_term_meta( $movie->term_id, 'do-not-update', true);
+				if($do_not_update_single == 1){
+					continue;
+				}
 				$movie_data = $omdb_client->get_movie_data($movie->name);
 				update_term_meta( $movie->term_id, 'title', $movie_data->data->Title );
 				update_term_meta( $movie->term_id, 'year', $movie_data->data->Year );

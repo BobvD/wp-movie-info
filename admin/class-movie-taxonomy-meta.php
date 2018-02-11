@@ -99,6 +99,13 @@ class movie_taxonomy_meta {
             <label for="metascore"><?php _e( 'Metascore', 'movie-info' ); ?></label>
             <input type="text" id="metascore" name="metascore" />
         </div>
+        <!-- Do not update this term -->
+        <div class="form-field term-group">
+            <label for="do-not-update"><?php _e( 'Settings', 'movie-info' ); ?></label>
+            <input type="checkbox" id="do-not-update" name="do-not-update" value="1"/>
+            Don't override this movie-data on post update.
+            </input>
+        </div>
         <?php
     }
 
@@ -115,6 +122,7 @@ class movie_taxonomy_meta {
         $rated = get_term_meta( $term->term_id, 'rated', true );
         $imdb_rating = get_term_meta( $term->term_id, 'imdb-rating', true );
         $metascore = get_term_meta( $term->term_id, 'metascore', true );
+        $do_not_update = get_term_meta( $term->term_id, 'do-not-update', true );
         ?>
         <table class="form-table">
             <hr/>
@@ -226,6 +234,20 @@ class movie_taxonomy_meta {
                     <input type="text" id="metascore" name="metascore" value="<?php echo $metascore; ?>" />
                 </td>
             </tr>
+            <!-- Metascore -->
+            <tr class="form-field">
+                <th scope="row">
+                    <label for="settings"><?php _e( 'Settings', 'movie-info' ); ?></label>
+                </th>
+                <td>
+                    <input type="hidden" value="0" name="do-not-update">
+                    <input type="checkbox" id="do-not-update" name="do-not-update" value="1"
+                         <?php checked( $do_not_update, true ); ?> />
+                    Don't override this movie-data on post update.
+                    </input>
+                </td>
+
+            </tr>
         </table>
         <?php
     }
@@ -263,6 +285,9 @@ class movie_taxonomy_meta {
         }
         if( isset( $_POST['metascore'] ) ) {
             update_term_meta( $term_id, 'metascore', esc_attr( $_POST['metascore'] ) );
+        }
+        if( isset( $_POST['do-not-update'] ) ) {
+            update_term_meta( $term_id, 'do-not-update', esc_attr( $_POST['do-not-update'] ) );
         }
 
         // Check that the nonce is valid, and the user can edit this post.
