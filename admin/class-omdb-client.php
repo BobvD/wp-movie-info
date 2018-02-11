@@ -56,6 +56,7 @@ class omdb_client {
         return  $items;
     }
 
+
     public function search_movie_by_name_and_year($name, $year){
         $results = $this->omdb->search($name, 'movie', $year);
         $items = array();
@@ -67,13 +68,11 @@ class omdb_client {
         return  $items;
     }
 
-    public function get_movie_data($slug){
+    public function get_movie_data($id){
 
-        $title = substr($slug, 0, -7);
-        $year = substr($slug, -6, 4);
-
-        $results = $this->omdb->fetch('t', $title, ['Year' => $year]);
+        $results = $this->omdb->fetch('i', $id);
         return  $results;
+
     }
 
 

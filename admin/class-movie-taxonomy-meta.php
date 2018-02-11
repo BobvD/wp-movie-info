@@ -89,6 +89,11 @@ class movie_taxonomy_meta {
             <label for="rated"><?php _e( 'Rated', 'movie-info' ); ?></label>
             <input type="text" id="rated" name="rated" />
         </div>
+        <!-- Movie Title -->
+        <div class="form-field term-group">
+            <label for="imdb-id"><?php _e( 'IMDB ID', 'movie-info' ); ?></label>
+            <input type="text" id="imdb-id" name="imdb-id" />
+        </div>
         <!-- IMDB Rating -->
         <div class="form-field term-group">
             <label for="imdb-rating"><?php _e( 'IMDB rating', 'movie-info' ); ?></label>
@@ -121,6 +126,7 @@ class movie_taxonomy_meta {
         $poster = get_term_meta( $term->term_id, 'poster', true );
         $rated = get_term_meta( $term->term_id, 'rated', true );
         $imdb_rating = get_term_meta( $term->term_id, 'imdb-rating', true );
+        $imdb_id = get_term_meta( $term->term_id, 'imdb-id', true );
         $metascore = get_term_meta( $term->term_id, 'metascore', true );
         $do_not_update = get_term_meta( $term->term_id, 'do-not-update', true );
         ?>
@@ -216,6 +222,18 @@ class movie_taxonomy_meta {
                     <input type="text" id="rated" name="rated" value="<?php echo $rated; ?>" />
                 </td>
             </tr>
+            <!-- IMDB ID -->
+            <tr class="form-field">
+                <th scope="row">
+                    <label for="imdb-id"><?php _e( 'IMDB ID', 'movie-info' ); ?></label>
+                </th>
+                <td>
+                    <input type="text" id="imdb-id" name="imdb-id" value="<?php echo $imdb_id; ?>" />
+                    <p class="description">
+                        <?php _e( 'The movie can\'t update correctly if you delete or change this field.', 'movie-info' ); ?>
+                    </p>
+                </td>
+            </tr>
             <!-- IMDB Rating -->
             <tr class="form-field">
                 <th scope="row">
@@ -279,6 +297,9 @@ class movie_taxonomy_meta {
         }
         if( isset( $_POST['rated'] ) ) {
             update_term_meta( $term_id, 'rated', esc_attr( $_POST['rated'] ) );
+        }
+        if( isset( $_POST['imdb-id'] ) ) {
+            update_term_meta( $term_id, 'imdb-id', esc_attr( $_POST['imdb-id'] ) );
         }
         if( isset( $_POST['imdb-rating'] ) ) {
             update_term_meta( $term_id, 'imdb-rating', esc_attr( $_POST['imdb-rating'] ) );

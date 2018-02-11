@@ -377,7 +377,7 @@ class Movie_Info_Admin {
 		$save_image = get_option( $this->option_name . '_save_image_locally' );
 		$do_not_update = get_option( $this->option_name . '_update_moviedata_on_post_update' );
 
-		if($update == 0 || ($update == 1 && $do_not_update != 1)){
+		if($update == 1 || ($update == 1 && $do_not_update != 1)){
 			$movies = get_the_terms( $post_id, 'movies' );
 			// get all movie data.
 			foreach ( $movies as $movie ) {
@@ -385,7 +385,14 @@ class Movie_Info_Admin {
 				if($do_not_update_single == 1){
 					continue;
 				}
-				$movie_data = $omdb_client->get_movie_data($movie->name);
+				$imdb_id = get_term_meta( $movie->term_id, 'imdb-id', true);
+				if(!$imdb_id){
+					if( isset( $_POST[$movie->slug] ) ) {
+						$imdb_id = esc_attr( $_POST[$movie->slug]);
+					}
+				}
+				$movie_data = $omdb_client->get_movie_data($imdb_id);
+
 				update_term_meta( $movie->term_id, 'title', $movie_data->data->Title );
 				update_term_meta( $movie->term_id, 'year', $movie_data->data->Year );
 				update_term_meta( $movie->term_id, 'runtime', $movie_data->data->Runtime );
@@ -396,19 +403,24 @@ class Movie_Info_Admin {
 				update_term_meta( $movie->term_id, 'rated', $movie_data->data->Rated );
 				update_term_meta( $movie->term_id, 'imdb-rating', $movie_data->data->imdbRating );
 				update_term_meta( $movie->term_id, 'metascore', $movie_data->data->Metascore );
+				update_term_meta( $movie->term_id, 'imdb-id', $movie_data->data->imdbID );
 
 				// check if the user want's to save images locally
 				if($save_image == 1){
 					// check if the poster image already exists, if not: save
 					if ( null == ( $thumb_id = $this->does_file_exists( basename($movie_data->data->Poster) ) ) ) {
-						update_term_meta( $movie->term_id, 'poster',
-						media_sideload_image($movie_data->data->Poster, 0, $movie->name, 'src') );
+
+						if (filter_var($movie_data->data->Poster, FILTER_VALIDATE_URL) === FALSE) {
+							update_term_meta( $movie->term_id, 'poster', 'no poster' );
+						} else {
+							update_term_meta( $movie->term_id, 'poster',
+							media_sideload_image($movie_data->data->Poster, 0, $movie->name, 'src') );
+						}
+
 					}
 				} else {
 					update_term_meta( $movie->term_id, 'poster', $movie_data->data->Poster);
 				}
-
-
 
 				// Update the term's description.
 				$update = wp_update_term( $movie->term_id, 'movies', array(

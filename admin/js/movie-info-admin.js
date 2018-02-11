@@ -93,6 +93,8 @@
 			// get data
 			var title = data.data('movie-title');
 			var year = data.data('movie-year');
+			var id = data.data('movie-id');
+			var slug = slugify(title + '-' + year)
 			var ex = `li[data-movie-tag='${title + ' (' + year})']`;
 			// check if tag already exists
 			if ( $( ex ).length > 0) {
@@ -102,10 +104,12 @@
 			}
 			// tag does not yet exists, add the tag.
 			var movie_hidden = `<input type="hidden" name="post_movie[]" value="${title + ' (' + year})" />`;
+			var movie_hidden2 = `<input type="hidden" value="${id}" name="${slug}" />`;
 			var movie_li = `<li data-movie-tag='${title + ' (' + year})'><button type="button dashicons-before" class="movie-info-delete">
 								<span class="dashicons dashicons-dismiss" aria-hidden="true"></span>
 			 					</button>${title + ' (' + year})</li>`;
 			$( ".movie-info-tags" ).append(movie_hidden);
+			$( ".movie-info-tags" ).append(movie_hidden2);
 			$( ".movie-info-tags ul" ).append(movie_li);
 		}
 
@@ -160,5 +164,14 @@
 			}
 		}
 	});
+
+	function slugify(text) {
+		return text.toString().toLowerCase()
+		.replace(/\s+/g, '-')           // Replace spaces with -
+		.replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+		.replace(/\-\-+/g, '-')         // Replace multiple - with single -
+		.replace(/^-+/, '')             // Trim - from start of text
+		.replace(/-+$/, '');            // Trim - from end of text
+	}
 
 })( jQuery );
